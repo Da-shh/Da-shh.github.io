@@ -11,12 +11,20 @@
 Результат: Презентация_ВКР_Тропа.pptx
 """
 
+import os
+
 from pptx import Presentation
 from pptx.util import Inches, Pt, Emu
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR, MSO_AUTO_SIZE
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.oxml.ns import qn
+
+# Логотип университета в левом верхнем углу слайдов.
+# Положите файл сюда (PNG с прозрачным фоном — лучше всего).
+LOGO_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                         "assets", "tsu_logo.png")
+LOGO_HEIGHT_IN = 0.62   # высота логотипа, дюймы
 
 # --------------------------------------------------------------------------
 # Палитра и шрифты
@@ -125,14 +133,20 @@ def line(slide, l, t, w, h, color=LINE, weight=1.0):
     return shp
 
 
-def kicker(slide, left_text, right_text=None):
-    _, tf = textbox(slide, 0.55, 0.32, 8.0, 0.4)
-    para(tf, left_text.upper(), font=F_BODY, size=10.5, color=MUTED,
-         bold=True, spacing=220, first=True)
+def logo(slide, left=0.55, top=0.3, height=LOGO_HEIGHT_IN):
+    """Эмблема университета в левом верхнем углу."""
+    if os.path.exists(LOGO_PATH):
+        slide.shapes.add_picture(LOGO_PATH, Inches(left), Inches(top),
+                                 height=Inches(height))
+
+
+def kicker(slide, left_text=None, right_text=None):
+    """Левый угол — логотип; правый угол — увеличенная подпись-раздел."""
+    logo(slide)
     if right_text:
-        _, tf2 = textbox(slide, SW - 6.55, 0.32, 6.0, 0.4)
-        para(tf2, right_text.upper(), font=F_BODY, size=10.5, color=MUTED,
-             bold=True, align=PP_ALIGN.RIGHT, spacing=220, first=True)
+        _, tf2 = textbox(slide, SW - 7.55, 0.34, 7.0, 0.5)
+        para(tf2, right_text.upper(), font=F_BODY, size=15, color=MUTED,
+             bold=True, align=PP_ALIGN.RIGHT, spacing=180, first=True)
 
 
 def heading(slide, lines, top=0.7, size=54, left=0.5, width=12.55,
@@ -294,9 +308,9 @@ KICK = "ИС «Тропа» · защита ВКР"
 
 
 def foot(slide, n):
-    _, tf = textbox(slide, SW - 2.0, SH - 0.5, 1.55, 0.35, wrap=False)
-    para(tf, f"{n:02d} / 17", font=F_BODY, size=10, color=MUTED, bold=True,
-         align=PP_ALIGN.RIGHT, spacing=160, first=True)
+    _, tf = textbox(slide, SW - 2.6, SH - 0.62, 2.15, 0.45, wrap=False)
+    para(tf, f"{n:02d} / 17", font=F_BODY, size=13.5, color=MUTED, bold=True,
+         align=PP_ALIGN.RIGHT, spacing=140, first=True)
 
 
 # ---- Слайд 1. Титульный --------------------------------------------------
