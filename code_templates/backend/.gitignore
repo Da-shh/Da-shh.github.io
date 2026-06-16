@@ -1,0 +1,43 @@
+# ====== СЕКРЕТЫ — НИКОГДА НЕ КОММИТИТЬ ======
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.crt
+key.json
+authorized_key.json
+service-account*.json
+
+# ====== Python ======
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ====== Данные / логи / медиа (могут содержать ПДн) ======
+*.sql
+*.dump
+*.sqlite3
+dumps/
+backups/
+logs/
+*.log
+media/
+uploads/
+
+# ====== Docker (локальные переопределения) ======
+docker-compose.override.yml
+
+# ====== IDE / ОС ======
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
